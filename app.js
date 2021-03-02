@@ -1,8 +1,10 @@
 //jshint esversion: 6
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const https = require("https");
+const { url } = require('inspector');
 
 const app = express();
 app.use(express.static("public"));
@@ -27,12 +29,11 @@ app.post("/",function(req,res){
     };
 
     const jsonData = JSON.stringify(data);
-    const url ="https://us17.api.mailchimp.com/3.0/lists/696ecc20c7";
     const options = {
         method: "POST",
-        auth: "Ritik:ac695e90786d5c8ac4175146ce82c1c8-us17"
+        auth: process.env.AUTH
     }
-    const request= https.request(url,options,function(response) {
+    const request= https.request(process.env.URL,options,function(response) {
         if(response.statusCode === 200){
             res.sendFile(__dirname+"/success.html");
         }
